@@ -59,12 +59,12 @@
         </a-entity>
 
         <!-- Camera -->
-        <a-camera delay-marker-lost proxy-event__off="event: delayMarkerFound; to: [webcamview]; as: off" proxy-event__on="event: delayMarkerLost; to: [webcamview]; as: on" rotation-reader look-controls-enabled='true' gps-camera cursor="rayOrigin: mouse">
+        <a-camera delay-marker-lost proxy-event__off="event: delayMarkerFound; to: [webcamview]; as: off" proxy-event__on="event: delayMarkerLost; to: [webcamview]; as: on" rotation-reader look-controls-enabled='true' gps-camera>
             <a-cursor material="color: white "></a-cursor>
 
             <!-- Convento São Francisco -->
             <a-marker type="barcode" value="1" compass-marker>
-                <a-plane id="teste" class="button" color="red" height="1" width="1" rotation="-90 0 0"></a-plane>
+                <a-plane cursor="rayOrigin: mouse" id="teste" class="button" color="red" height="1" width="1" rotation="-90 0 0"></a-plane>
                 <a-text color="black" value="Convento Sao Francisco" position="0 1 0" width="2.5" side="double">
                 </a-text>
                 <a-gltf-model class="pointer" scale="0.08 0.08 0.08" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='1']"></a-gltf-model>
