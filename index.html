@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Cultural Compass</title>
+    <link rel="stylesheet" href="styles.css">
     <!-- Include A-Frame -->
     <script src="js/aframe.min.js"></script>
     <!-- Include AR.js -->
@@ -18,112 +19,131 @@
 </head>
 
 <body style="margin : 0px; overflow: hidden;">
-    <a-scene embedded vr-mode-ui="enabled: false" renderer="logarithmicDepthBuffer: true;" arjs="trackingMethod: best; sourceType: webcam;  debugUIEnabled: false; debug: true; detectionMode: mono_and_matrix; matrixCodeType: 3x3; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960;">
+    <a-scene embedded vr-mode-ui="enabled: false" renderer="logarithmicDepthBuffer: true;" arjs="trackingMethod: best; sourceType: webcam;  debugUIEnabled: false; debug: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960;">
         <!-- Assets -->
         <a-assets>
             <a-asset-item id="pointerModel" src="pointer.glb"></a-asset-item>
-            <img id="location" src="location.png">
         </a-assets>
 
-        <!-- Convento São Francisco -->
-        <a-entity gps-entity-place="latitude: 40.203593369522345; longitude: -8.43581759821043;" value="1" look-at="[gps-camera]">
-            <a-image src="#location" side="double" scale="5 5 5" position="0 0 0"></a-image>
-        </a-entity>
         <!-- Mosteiro de Santa Clara-a-Velha -->
-        <a-entity gps-entity-place="latitude: 40.20305252070161; longitude: -8.433219819815331;" value="0" look-at="[gps-camera]">
-            <a-image src="#location" side="double" scale="5 5 5" position="0 0 0"></a-image>
-        </a-entity>
+        <a-entity gps-entity-place="latitude: 40.20305252070161; longitude: -8.433219819815331;" value="0"></a-entity>
+        <!-- Convento São Francisco -->
+        <a-entity gps-entity-place="latitude: 40.203593369522345; longitude: -8.43581759821043;" value="1"></a-entity>
         <!-- Aqueduto de São Sebastião -->
-        <a-entity gps-entity-place="latitude: 40.206869374338694; longitude: -8.420831728893027;" value="2" look-at="[gps-camera]">
-            <a-image src="#location" side="double" scale="5 5 5" position="0 0 0"></a-image>
-        </a-entity>
+        <a-entity gps-entity-place="latitude: 40.206869374338694; longitude: -8.420831728893027;" value="2"></a-entity>
         <!-- Paço das Escolas -->
-        <a-entity gps-entity-place="latitude: 40.2076200665344; longitude: -8.425975100057716;" value="3" look-at="[gps-camera]">
-            <a-image src="#location" side="double" scale="5 5 5" position="0 0 0"></a-image>
-        </a-entity>
+        <a-entity gps-entity-place="latitude: 40.2076200665344; longitude: -8.425975100057716;" value="3"></a-entity>
         <!-- Museu Nacional Machado de Castro -->
-        <a-entity gps-entity-place="latitude: 40.20905054412418; longitude: -8.425463057728331;" value="4" look-at="[gps-camera]">
-            <a-image src="#location" side="double" scale="5 5 5" position="0 0 0"></a-image>
-        </a-entity>
+        <a-entity gps-entity-place="latitude: 40.20905054412418; longitude: -8.425463057728331;" value="4"></a-entity>
         <!-- Jardim Botânico -->
-        <a-entity gps-entity-place="latitude: 40.205691064843904; longitude: -8.420667268148154;" value="5" look-at="[gps-camera]">
-            <a-image src="#location" side="double" scale="5 5 5" position="0 0 0"></a-image>
-        </a-entity>
-        <!-- Praça da República -->
-        <a-entity gps-entity-place="latitude: 40.20961975568062; longitude: -8.419638844234287;" value="6" look-at="[gps-camera]">
-            <a-image src="#location" side="double" scale="5 5 5" position="0 0 0"></a-image>
-        </a-entity>
+        <a-entity gps-entity-place="latitude: 40.205691064843904; longitude: -8.420667268148154;" value="5"></a-entity>
+        <!-- Parque de Santa Cruz -->
+        <a-entity gps-entity-place="latitude: 40.20965674909007; longitude: -8.418992430740326;" value="6"></a-entity>
         <!-- Largo da Portagem -->
-        <a-entity gps-entity-place="latitude: 40.207594160333436; longitude: -8.429689844234336;" value="7" look-at="[gps-camera]">
-            <a-image src="#location" side="double" scale="5 5 5" position="0 0 0"></a-image>
-        </a-entity>
+        <a-entity gps-entity-place="latitude: 40.207594160333436; longitude: -8.429689844234336;" value="7"></a-entity>
 
         <!-- Camera -->
-        <a-camera delay-marker-lost proxy-event__off="event: delayMarkerFound; to: [webcamview]; as: off" proxy-event__on="event: delayMarkerLost; to: [webcamview]; as: on" rotation-reader look-controls-enabled='true' gps-camera>
-            <a-cursor material="color: white "></a-cursor>
+        <a-camera delay-marker-lost proxy-event__off="event: delayMarkerFound; to: [webcamview]; as: off" proxy-event__on="event: delayMarkerLost; to: [webcamview]; as: on" rotation-reader look-controls-enabled='true' gps-camera marker-distance>
 
-            <!-- Convento São Francisco -->
-            <a-marker type="barcode" value="1" compass-marker>
-                <a-plane cursor="rayOrigin: mouse" id="teste" class="button" color="red" height="1" width="1" rotation="-90 0 0"></a-plane>
-                <a-text color="black" value="Convento Sao Francisco" position="0 1 0" width="2.5" side="double">
-                </a-text>
-                <a-gltf-model class="pointer" scale="0.08 0.08 0.08" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='1']"></a-gltf-model>
-            </a-marker>
             <!-- Mosteiro de Santa Clara-a-Velha -->
-            <a-marker type="barcode" value="0" compass-marker>
-                <a-plane class="button" color="red" height="1" width="1" rotation="-90 0 0"></a-plane>
-                <a-text color="black" value="Mosteiro de Santa Clara-a-Velha" position="0 1 0" width="2.5" side="double"></a-text>
-                <a-gltf-model class="pointer" scale="0.08 0.08 0.08" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='0']"></a-gltf-model>
+            <a-marker type="barcode" value="0">
+                <a-gltf-model class="pointer" scale="0.07 0.07 0.07" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='0']"></a-gltf-model>
+            </a-marker>
+            <!-- Convento São Francisco -->
+            <a-marker type="barcode" value="1">
+                <a-gltf-model class="pointer" scale="0.07 0.07 0.07" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='1']"></a-gltf-model>
             </a-marker>
             <!-- Aqueduto de São Sebastião -->
-            <a-marker type="barcode" value="2" compass-marker>
-                <a-plane class="button" color="red" height="1" width="1" rotation="-90 0 0"></a-plane>
-                <a-text color="black" value="Aqueduto de São Sebastião" position="0 1 0" width="2.5" side="double"></a-text>
-                <a-gltf-model class="pointer" scale="0.08 0.08 0.08" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='2']"></a-gltf-model>
+            <a-marker type="barcode" value="2">
+                <a-gltf-model class="pointer" scale="0.07 0.07 0.07" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='2']"></a-gltf-model>
             </a-marker>
             <!-- Paço das Escolas -->
-            <a-marker type="barcode" value="3" compass-marker>
-                <a-plane class="button" color="red" height="1" width="1" rotation="-90 0 0"></a-plane>
-                <a-text color="black" value="Paço das Escolas" position="0 1 0" width="2.5" side="double"></a-text>
-                <a-gltf-model class="pointer" scale="0.08 0.08 0.08" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='3']"></a-gltf-model>
+            <a-marker type="barcode" value="3">
+                <a-gltf-model class="pointer" scale="0.07 0.07 0.07" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='3']"></a-gltf-model>
             </a-marker>
             <!-- Museu Nacional Machado de Castro -->
-            <a-marker type="barcode" value="4" compass-marker>
-                <a-plane class="button" color="red" height="1" width="1" rotation="-90 0 0"></a-plane>
-                <a-text color="black" value="Museu Nacional Machado de Castro" position="0 1 0" width="2.5" side="double"></a-text>
-                <a-gltf-model class="pointer" scale="0.08 0.08 0.08" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='4']"></a-gltf-model>
+            <a-marker type="barcode" value="4">
+                <a-gltf-model class="pointer" scale="0.07 0.07 0.07" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='4']"></a-gltf-model>
             </a-marker>
             <!-- Jardim Botânico -->
-            <a-marker type="barcode" value="5" compass-marker>
-                <a-plane class="button" color="red" height="1" width="1" rotation="-90 0 0"></a-plane>
-                <a-text color="black" value="Jardim Botânico" position="0 1 0" width="2.5" side="double"></a-text>
-                <a-gltf-model class="pointer" scale="0.08 0.08 0.08" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='5']"></a-gltf-model>
+            <a-marker type="barcode" value="5">
+                <a-gltf-model class="pointer" scale="0.07 0.07 0.07" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='5']"></a-gltf-model>
             </a-marker>
-            <!-- Praça da República -->
-            <a-marker type="barcode" value="6" compass-marker>
-                <a-plane class="button" color="red" height="1" width="1" rotation="-90 0 0"></a-plane>
-                <a-text color="black" value="Praça da República" position="0 1 0" width="2.5" side="double"></a-text>
-                <a-gltf-model class="pointer" scale="0.08 0.08 0.08" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='6']"></a-gltf-model>
+            <!-- Parque de Santa Cruz -->
+            <a-marker type="barcode" value="6">
+                <a-gltf-model class="pointer" scale="0.07 0.07 0.07" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='6']"></a-gltf-model>
             </a-marker>
             <!-- Largo da Portagem -->
-            <a-marker type="barcode" value="7" compass-marker>
-                <a-plane class="button" color="red" height="1" width="1" rotation="-90 0 0"></a-plane>
-                <a-text color="black" value="Largo da Portagem" position="0 1 0" width="2.5" side="double"></a-text>
-                <a-gltf-model class="pointer" scale="0.08 0.08 0.08" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='7']"></a-gltf-model>
+            <a-marker type="barcode" value="7">
+                <a-gltf-model class="pointer" scale="0.07 0.07 0.07" src="#pointerModel" position="0 0 2.8" look-at="[gps-entity-place][value='7']"></a-gltf-model>
             </a-marker>
         </a-camera>
     </a-scene>
 
-    <h1 id="distance" style="z-index: 5; position: fixed; transform: translate(-50%, -50%); top: 50%; left: 50%;">
-        Waiting</h1>
+    <div id="distance"></div>
+    <div id="content">
+        <div class="info-button"></div>
+        <div class="info">
+            <!-- Mosteiro de Santa Clara-a-Velha -->
+            <div value="0">
+                <h1>Mosteiro de Santa Clara-a-Velha</h1>
+                <img src="img/0 Mosteiro de Santa Clara-a-Velha.jpg">
+                <p>O Mosteiro de Santa Clara de Coimbra, popularmente conhecido como Convento de Santa Clara-a-Velha, localiza-se na margem esquerda do rio Mondego, freguesia de Santa Clara, na cidade, concelho e distrito de Coimbra, em Portugal. Representa
+                    um momento de experimentação do estilo gótico no país. A sua fundação, em fins do século XIII, inscreve-se numa conjuntura de gradual influência e aceitação da Ordem dos Frades Menores na Corte e na sociedade portuguesa em geral.</p>
+            </div>
+            <!-- Convento São Francisco -->
+            <div value="1">
+                <h1>Convento São Francisco</h1>
+                <img src="img/1 Convento São Francisco.jpg">
+                <p>O Convento de São Francisco localiza-se na freguesia de Santa Clara, na cidade, concelho e distrito de Coimbra, em Portugal. Foi concebido originalmente para acolher os monges franciscanos, que ocuparam o edifício até à Revolução de 1820.
+                    Atualmente, recebeu obras de restauro e reabilitação para desenvolver actividade cultural.</p>
+            </div>
+            <!-- Aqueduto de São Sebastião -->
+            <div value="2">
+                <h1>Aqueduto de São Sebastião</h1>
+                <img src="img/2 Aqueduto de São Sebastião.jpg">
+                <p>O Aqueduto de São Sebastião, popularmente conhecido como os Arcos do Jardim, localiza-se na calçada Martim de Freitas, em frente ao Jardim Botânico da Universidade de Coimbra, na freguesia da Sé Nova, cidade e concelho de Coimbra, no distrito
+                    de Coimbra, em Portugal.</p>
+            </div>
+            <!-- Paço das Escolas -->
+            <div value="3">
+                <h1>Paço das Escolas</h1>
+                <img src="img/3 Paço das Escolas.JPG">
+                <p>O Paço das Escolas, anteriormente denominado Paço Real da Alcáçova (séc. XII-XVI) e Alcáçova de Coimbra (séc. X-XII) é o conjunto arquitetónico que alberga o núcleo histórico da Universidade de Coimbra. Situado na freguesia de Sé Nova,
+                    cidade e concelho de Coimbra (Distrito de Coimbra), foi edificado ao longo de várias centenas de anos, tendo sido Paço Real desde o reinado de D. Afonso Henriques até ao século XVI. Devido à sua excecional importância cultural, foi
+                    classificado como Monumento Nacional em 1910 e encontra-se inscrito na listagem de Património Mundial da UNESCO desde junho de 2013.</p>
+            </div>
+            <!-- Museu Nacional Machado de Castro -->
+            <div value="4">
+                <h1>Museu Nacional Machado de Castro</h1>
+                <img src="img/4 Museu Nacional Machado de Castro.jpg">
+                <p>O Museu Nacional de Machado de Castro é um dos mais importantes museus de Belas-Artes de Portugal. Foi assim denominado em homenagem ao destacado escultor conimbricense Machado de Castro. O seu espólio inclui importantes núcleos de escultura,
+                    pintura e Artes decorativas. Ocupa as antigas instalações do Paço Episcopal de Coimbra e um amplo edifício novo, inaugurado em 2012. Localiza-se no Largo Dr. José Rodrigues, freguesia da Sé Nova, Coimbra. Está integrado desde 2013
+                    na área classificada pela UNESCO como Património Mundial da Humanidade da Universidade de Coimbra - Alta e Sofia.</p>
+            </div>
+            <!-- Jardim Botânico -->
+            <div value="5">
+                <h1>Jardim Botânico</h1>
+                <img src="img/5 Jardim Botânico.jpg">
+                <p>O Jardim Botânico da Universidade de Coimbra, é um jardim botânico com 13,5 hectares de área, situado em Coimbra, Portugal. É membro da Associação Ibero-Macaronésica de Jardins Botânicos e da BGCI (Botanical Gardens Conservation International),
+                    e apresenta programas de conservação para a International Agenda for Botanic Gardens in Conservation.</p>
+            </div>
+            <!-- Parque de Santa Cruz -->
+            <div value="6">
+                <h1>Parque de Santa Cruz</h1>
+                <img src="img/6 Parque de Santa Cruz.jpg">
+                <p>O Parque de Santa Cruz, popularmente conhecido por Jardim da Sereia, localiza-se na freguesia da Sé Nova, na cidade, concelho e distrito de Coimbra, em Portugal.</p>
+            </div>
+            <!-- Largo da Portagem -->
+            <div value="7">
+                <h1>Largo da Portagem</h1>
+                <img src="img/7 Largo da Portagem.jpg">
+                <p>O Largo da Portagem é a principal praça bem como o centro da cidade de Coimbra em Portugal, junto à Ponte de Santa Clara e à beira do rio Mondego na freguesia de São Bartolomeu. Situa-se num grande edifício junto ao largo, o Governo Civil
+                    do Distrito de Coimbra e a Comunidade Intermunicipal do Baixo Mondego.</p>
+            </div>
+        </div>
+    </div>
 </body>
-<!--<script src="js/js-document.js"></script>-->
+<script src="js/js-document.js"></script>
 
 </html>
-
-<script>
-    var objeto = document.getElementById("teste");
-    objeto.addEventListener("click", function() {
-        console.log("teste");
-    })
-</script>

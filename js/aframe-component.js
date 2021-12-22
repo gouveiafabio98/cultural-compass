@@ -1,73 +1,76 @@
+var currentTarget = null;
+
 // Marker Lost
 AFRAME.registerComponent("delay-marker-lost", {
     schema: {
         default: 1.0
     },
-    init: function () {
+    init: function() {
         this.timer = null;
         this.marker = false;
+        this.value = null;
         this.el.addEventListener(
             "markerFound",
-            function (evt) {
-                let value = evt.target.getAttribute("value");
+            function(evt) {
+                markerEvent(null);
+                currentTarget = document.querySelector("[gps-entity-place]" + evt.target.querySelector("a-gltf-model").getAttribute("look-at"));
+                this.value = evt.target.getAttribute("value");
                 let prev = this.marker;
                 if (!prev) {
                     this.marker = true;
                     this.el.emit("delayMarkerFound");
-                    console.log("delayMarkerFound ", value);
+                    console.log("delayMarkerFound ", this.value);
                 }
                 clearTimeout(this.timer);
-                //console.log(this.markers)
+                markerEvent(this.value);
             }.bind(this)
         );
         this.el.addEventListener(
             "markerLost",
-            function (evt) {
-                let value = evt.target.getAttribute("value");
+            function(evt) {
+                this.value = evt.target.getAttribute("value");
                 let _this = this;
                 clearTimeout(this.timer);
-                this.timer = setTimeout(function () {
+                this.timer = setTimeout(function() {
+                    currentTarget = null;
                     _this.el.emit("delayMarkerLost");
-                    console.log("delayMarkerLost ", value);
+                    console.log("delayMarkerLost ", _this.value);
                     _this.marker = false;
-                    //console.log(_this.timer, _this.markers)
+                    _this.value = null;
+                    markerEvent(_this.value);
                 }, 1500);
             }.bind(this)
         );
     }
 });
 
-//Custom Component
-AFRAME.registerComponent("compass-marker", {
+AFRAME.registerComponent("marker-distance", {
     schema: {
         default: 1.0
     },
-    init: function () {
-        this.timer = null;
-        this.value = null;
-        this.gps = null;
-        this.updateCount = 0;
-        this.textElement = null;
+    init: function() {
+        this.directionVec3 = new THREE.Vector3();
+        this._targetPos = new THREE.Vector3();
+        this._currentPos = new THREE.Vector3();
+    },
+    tick: function() {
+        if (currentTarget != null) {
+            var directionVec3 = this.directionVec3;
+            this._targetPos.setFromMatrixPosition(
+                currentTarget.object3D.matrixWorld
+            );
+            this._currentPos.setFromMatrixPosition(this.el.object3D.matrixWorld);
 
-        this.el.addEventListener("markerFound", function (evt) {
-            this.textElement = document.getElementById("distance");
-            this.value = evt.target.getAttribute("value");
-            this.gps = document.querySelector('[gps-entity-place][value="' + this.value + '"]');
-            updateCount = 0;
+            directionVec3.copy(this._targetPos).sub(this._currentPos);
 
-            let _this = this;
-
-            this.timer = setInterval(function () {
-                _this.textElement.innerHTML = "Distance: " + _this.gps.getAttribute('distance') + " Update: " + _this.updateCount;
-                _this.updateCount++;
-            }, 500);
-
-        }.bind(this));
-
-        this.el.addEventListener("markerLost", function (evt) {
-            this.textElement.innerHTML = "Waiting";
-            this.updateCount = 0;
-            clearInterval(this.timer);
-        }.bind(this));
+            //console.log(Math.abs(currentDistance - directionVec3.length()), currentDistance, directionVec3.length());
+            if (currentDistance == null || Math.abs(currentDistance - directionVec3.length()) > 1) {
+                currentDistance = directionVec3.length();
+                changeCurrentDistance();
+            }
+        } else if (currentDistance != null) {
+            currentDistance = null;
+            changeCurrentDistance();
+        }
     }
 });
